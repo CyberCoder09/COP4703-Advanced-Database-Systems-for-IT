@@ -1,0 +1,4 @@
+# PostgreSQL drivers for Python
+
+psycopg2-binary  # Driver that allows Python code to connect to & communicate with PostgreSQL
+python-dotenv    # Driver that allows Python to load environment variables from a .env file

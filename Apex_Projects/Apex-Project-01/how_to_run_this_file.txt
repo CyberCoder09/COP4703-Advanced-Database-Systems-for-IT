@@ -1,0 +1,19 @@
+Navigate to this folder location in cmd
+
+docker compose up --build
+docker compose up -d
+
+docker exec -it apex_postgres psql -U admin -d apex_events
+
+\dt
+SELECT * FROM attendees;
+\q
+
+
+docker compose down
+
+
+to check again -> 
+execute -> docker compose up -d
+execute -> docker exec -it apex_postgres psql -U admin -d apex_events
+once you are in psql-> execute -> SELECT * FROM attendees;

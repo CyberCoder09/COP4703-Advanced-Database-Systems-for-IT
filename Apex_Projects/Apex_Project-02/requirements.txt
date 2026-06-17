@@ -1,0 +1,8 @@
+# PostgreSQL drivers for Python
+
+alembic          # Database migration tool for SQLAlchemy, helps manage database schema changes over time
+fastapi          # Web framework for building APIs with Python, designed for high performance and ease of use 
+psycopg2-binary  # Driver that allows Python code to connect to & communicate with PostgreSQL
+python-dotenv    # Driver that allows Python to load environment variables from a .env file
+sqlalchemy       # Object-Relational Mapping (ORM) toolkit for Python, provides a high-level interface for working with databases  
+uvicorn          # ASGI server for Python, used to run FastAPI applications
