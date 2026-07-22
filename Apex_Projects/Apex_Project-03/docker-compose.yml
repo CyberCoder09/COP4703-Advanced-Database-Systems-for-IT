@@ -1,0 +1,64 @@
+
+services:
+
+  # PostgreSQL database service
+  psql_db:
+    
+    # Use official alpine image
+    image: postgres:15-alpine
+    
+    # Name of the database container
+    container_name: apex_postgres
+    
+    # Maps PostgreSQL port from container to local machine
+    ports: 
+      - "5432:5432"
+    
+    # Loads database credentials from .env file
+    env_file:
+      - .env
+
+    # Storing database files in a named docker volume, allowing data to survive container restart/removal
+    volumes: 
+      - apex_postgres_data:/var/lib/postgresql/data
+      
+    # To ensure PostgreSQL is ready before Python runs  
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U admin -d apex_events"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+# Python API that initialize attendees data
+  
+  api:
+    
+    # To build the Python container using the docker file in this folder
+    build: .
+
+    # Name of the Python container
+    container_name: apex_api
+
+    # Waits for health checks to run positively
+    depends_on:
+      psql_db:
+        condition: service_healthy
+
+    # Maps API port from container to local machine
+    ports:
+      - "8005:8000"
+      
+    # Mounts the local script folder into container
+    volumes:
+      - .:/app
+
+    # Python script that creates the table & inserts attendees
+    command: sh -c "alembic upgrade head && uvicorn scripts.main:app --host 0.0.0.0 --port 8000"
+
+    # Loads environment variables into the Python container
+    env_file:
+      - .env
+
+# Defines the named docker volume used by PostgreSQL
+volumes:
+  apex_postgres_data:    
