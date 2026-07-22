@@ -1,0 +1,56 @@
+services:
+
+  # PostgreSQL database service
+  psql_db:
+    image: postgres:15-alpine
+    container_name: apex_postgres
+    ports:
+      - "5432:5432"
+    env_file:
+      - .env
+    volumes:
+      - apex_postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U admin -d apex_events"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  # MongoDB service
+  mongo_db:
+    image: mongo:latest
+    container_name: apex_mongo
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_data:/data/db
+    env_file:
+      - .env
+    healthcheck:
+      test: ["CMD", "mongosh", "--eval", "db.adminCommand('ping')"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 20s
+
+  # FastAPI service
+  api:
+    build: .
+    container_name: apex_api
+    depends_on:
+      psql_db:
+        condition: service_healthy
+      mongo_db:
+        condition: service_healthy
+    ports:
+      - "8005:8000"
+    volumes:
+      - .:/app
+    # CHANGED: We now run the scripts as modules (-m) so Python resolves "scripts.database" properly!
+    command: sh -c "alembic upgrade head && python -m scripts.dataset && python -m scripts.seed_telemetry && uvicorn scripts.main:app --host 0.0.0.0 --port 8000"
+    env_file:
+      - .env
+
+volumes:
+  apex_postgres_data:
+  mongo_data:

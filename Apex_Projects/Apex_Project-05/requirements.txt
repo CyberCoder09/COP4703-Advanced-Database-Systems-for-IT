@@ -1,0 +1,17 @@
+# PostgreSQL drivers for Python
+
+alembic          # Database migration tool for SQLAlchemy, helps manage database schema changes over time
+asyncpg          # Asynchronous PostgreSQL client library for Python, allows for non-blocking database operations
+black            # Code formatter for Python, automatically formats code to adhere to PEP 8 style guide
+email-validator  # Library for validating email addresses, ensuring they conform to standard formats and rules
+Faker            # Library for generating fake data, useful for testing and populating databases with sample data
+fastapi          # Web framework for building APIs with Python, designed for high performance and ease of use 
+flask            # Lightweight web fram>ework for Python, used to build web applications and APIs
+psycopg2-binary  # Driver that allows Python code to connect to & communicate with PostgreSQL
+pydantic         # Data validation and settings management library for Python, used to define data models and validate input data
+pytest           # Testing framework for Python, used to write and run unit tests
+python-dotenv    # Driver that allows Python to load environment variables from a .env file
+requests         # HTTP library for Python, used to send HTTP requests and handle responses
+ruff             # Linter & code analysis tool for Python, helps enforce coding standards & detect potential issues
+sqlalchemy       # Object-Relational Mapping (ORM) toolkit for Python, provides a high-level interface for working with databases  
+uvicorn          # ASGI server for Python, used to run FastAPI applications
